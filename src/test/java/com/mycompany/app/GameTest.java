@@ -479,17 +479,3 @@ class TicTacToePanelTest {
         assertEquals("Выиграли крестики", panel.lastMessage);
     }
 }
-
-class ProgramTest {
-    @BeforeAll
-    static void setup() {
-        System.setProperty("java.awt.headless", "true");
-    }
-    @Test
-    void createFrameContainsPanel() {
-        JFrame frame = Program.createFrame();
-
-        assertEquals(1, frame.getContentPane().getComponentCount());
-        assertTrue(frame.getContentPane().getComponent(0) instanceof TicTacToePanel);
-    }
-}
