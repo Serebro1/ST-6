@@ -1,5 +1,6 @@
 package com.mycompany.app;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -480,10 +481,12 @@ class TicTacToePanelTest {
 }
 
 class ProgramTest {
-
+    @BeforeAll
+    static void setup() {
+        System.setProperty("java.awt.headless", "true");
+    }
     @Test
     void createFrameContainsPanel() {
-        System.setProperty("java.awt.headless", "true");
         JFrame frame = Program.createFrame();
 
         assertEquals(1, frame.getContentPane().getComponentCount());
