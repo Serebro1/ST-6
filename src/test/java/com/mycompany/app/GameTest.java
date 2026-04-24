@@ -480,8 +480,10 @@ class TicTacToePanelTest {
 }
 
 class ProgramTest {
+
     @Test
     void createFrameContainsPanel() {
+        System.setProperty("java.awt.headless", "true");
         JFrame frame = Program.createFrame();
 
         assertEquals(1, frame.getContentPane().getComponentCount());
