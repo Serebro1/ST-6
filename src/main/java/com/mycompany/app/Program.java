@@ -1,4 +1,4 @@
-// Реализация игры "Крестики-нолики" (3x3)
+package com.mycompany.app;// Реализация игры "Крестики-нолики" (3x3)
 // Минимаксный алгоритм
 
 import java.awt.*;
@@ -184,15 +184,18 @@ class Game {
 }
 
 public class Program {
-
     public static FileWriter fileWriter;
     public static PrintWriter printWriter;
-    public static void main(String[] args) throws IOException {
-       JFrame frame = new JFrame("Demo");
-       frame.add(new TicTacToePanel(new GridLayout(3,3)));
-       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-       frame.setBounds(5, 5, 500, 500);
-       frame.setVisible(true);
+    public static JFrame createFrame() {
+        JFrame frame = new JFrame("Demo");
+        frame.add(new TicTacToePanel(new GridLayout(3,3)));
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setBounds(5, 5, 500, 500);
+        return frame;
+    }
+    public static void main(String[] args) {
+        JFrame frame = createFrame();
+        frame.setVisible(true);
     }
 }
 
@@ -267,17 +270,48 @@ class TicTacToePanel extends JPanel implements ActionListener {
    private TicTacToeCell[] cells = new TicTacToeCell[9];
    TicTacToePanel(GridLayout layout) {
        super(layout);
-       createCell(0,0,0);
-       createCell(1,1,0);
-       createCell(2,2,0);
-       createCell(3,0,1);
-       createCell(4,1,1);
-       createCell(5,2,1);
-       createCell(6,0,2);
-       createCell(7,1,2); 
-       createCell(8,2,2);
-       game=new Game();
-       game.cplayer=game.player1;
+       createCell(0, 0, 0);
+       createCell(1, 1, 0);
+       createCell(2, 2, 0);
+       createCell(3, 0, 1);
+       createCell(4, 1, 1);
+       createCell(5, 2, 1);
+       createCell(6, 0, 2);
+       createCell(7, 1, 2);
+       createCell(8, 2, 2);
+       game = new Game();
+       game.cplayer = game.player1;
+   }
+
+   protected void endGame(State state) {
+       String message = null;
+       if (state == State.XWIN) {
+           message = "Выиграли крестики";
+       }
+       else if (state == State.OWIN) {
+           message = "Выиграли нолики";
+       }
+       else if (state == State.DRAW) {
+           message = "Ничья";
+       }
+
+       if (message != null) {
+           showEndGame(message);
+           closeWindow();
+       }
+   }
+
+    protected void showEndGame(String message) {
+       JOptionPane.showMessageDialog(
+               null,
+               message,
+               "Результат",
+               JOptionPane.WARNING_MESSAGE
+       );
+   }
+
+    protected void closeWindow() {
+       SwingUtilities.getWindowAncestor(this).dispose();
    }
 
    public void actionPerformed(ActionEvent ae) {
@@ -312,24 +346,7 @@ class TicTacToePanel extends JPanel implements ActionListener {
 
       game.state=game.checkState(game.board);
 
-
-      if(game.state==State.XWIN) {
-        JOptionPane.showMessageDialog(null,"Выиграли крестики","Результат", JOptionPane.WARNING_MESSAGE);
-        System.exit(0);
-
-      }
-      else if(game.state==State.OWIN) {
-        JOptionPane.showMessageDialog(null,"Выиграли нолики","Результат", JOptionPane.WARNING_MESSAGE);
-        System.exit(0);
-      }
-      else if(game.state==State.DRAW) {
-        JOptionPane.showMessageDialog(null,"Ничья","Результат", JOptionPane.WARNING_MESSAGE);
-        System.exit(0);
-      } 
-
-
-
-
+      endGame(game.state);
    }
 }
 
