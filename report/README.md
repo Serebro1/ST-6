@@ -1,2 +1,2 @@
 Здесь сохраняются скриншоты отчетов о покрытии
-![report.jpg](report.jpg)
+![coverage.png](coverage.png)
